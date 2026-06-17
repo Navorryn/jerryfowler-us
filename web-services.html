@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Services · Jerry Fowler</title>
+  <meta name="description" content="Custom web design and development by Jerry Fowler — sites built to represent you, not a template." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --cream:     #F7F4EF;
+      --cream-dk:  #EDE8E0;
+      --charcoal:  #1C1B1A;
+      --charcoal2: #3A3836;
+      --terra:     #C85A35;
+      --terra-lt:  #E07A57;
+      --forest:    #2C4A3E;
+      --forest-lt: #3D6455;
+      --sand:      #D4C4A8;
+      --text:      #3A3836;
+      --text-lt:   #7A7570;
+      --radius:    12px;
+      --max-w:     1120px;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--terra); }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-lt);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--terra); }
+
+    /* ── Page header ── */
+    .page-header {
+      padding: 9rem 2rem 5rem;
+      background: var(--charcoal);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 90% 50%, rgba(100,140,200,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 10% 60%, rgba(200, 90, 53, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .page-header-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .page-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--terra-lt);
+      margin-bottom: 1.25rem;
+    }
+    .page-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.1;
+      color: #fff;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      max-width: 700px;
+    }
+    .page-header h1 em {
+      font-style: italic;
+      color: var(--terra-lt);
+    }
+    .page-sub {
+      font-size: 1.1rem;
+      color: rgba(247,244,239,0.65);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    /* ── Section base ── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.75rem, 3.5vw, 2.6rem);
+      color: var(--charcoal);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--text-lt);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+    .rule {
+      width: 48px;
+      height: 3px;
+      background: var(--terra);
+      border-radius: 2px;
+      margin: 1.25rem 0 1.75rem;
+    }
+
+    /* ── What we build ── */
+    #what { background: var(--cream-dk); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .service-card {
+      background: var(--cream);
+      border: 1px solid var(--sand);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .service-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .service-name {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+    }
+    .service-desc {
+      font-size: 0.93rem;
+      color: var(--text-lt);
+      line-height: 1.7;
+    }
+
+    /* ── Approach ── */
+    #approach { background: var(--cream); }
+    .approach-list {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      max-width: 680px;
+    }
+    .approach-item {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+    .approach-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--terra);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .approach-text h4 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      color: var(--charcoal);
+      margin-bottom: 0.3rem;
+    }
+    .approach-text p {
+      font-size: 0.93rem;
+      color: var(--text-lt);
+      line-height: 1.7;
+    }
+
+    /* ── Client work ── */
+    #clients { background: var(--cream-dk); }
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .client-card {
+      background: var(--cream);
+      border: 1px solid var(--sand);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .client-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(28,27,26,0.10);
+    }
+    .client-card-header {
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--sand);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .client-logo-placeholder {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: rgba(200,90,53,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .client-meta h3 {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      color: var(--charcoal);
+      margin-bottom: 0.2rem;
+    }
+    .client-meta .client-url {
+      font-size: 0.8rem;
+      color: var(--terra);
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .client-card-body {
+      padding: 1.5rem 2rem;
+      flex: 1;
+    }
+    .client-desc {
+      font-size: 0.95rem;
+      color: var(--text-lt);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+    .client-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: var(--cream-dk);
+      color: var(--text);
+      border: 1px solid var(--sand);
+      padding: 0.2rem 0.65rem;
+      border-radius: 50px;
+    }
+    .client-card-footer {
+      padding: 1.25rem 2rem;
+      border-top: 1px solid var(--sand);
+    }
+    .client-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--terra);
+      transition: gap 0.2s;
+    }
+    .client-link:hover { gap: 0.7rem; }
+
+    /* ── CTA ── */
+    #cta {
+      background: var(--forest);
+      color: var(--cream);
+      text-align: center;
+    }
+    #cta .section-label { color: var(--terra-lt); }
+    #cta .section-title { color: var(--cream); margin-bottom: 1rem; }
+    #cta .section-body  { color: rgba(247,244,239,0.65); margin: 0 auto 2.5rem; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--terra);
+      color: #fff;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--terra-lt); transform: translateY(-1px); }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--charcoal);
+      color: rgba(247,244,239,0.35);
+      text-align: center;
+      padding: 1.75rem 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+    }
+    footer a { color: rgba(247,244,239,0.5); transition: color 0.2s; }
+    footer a:hover { color: var(--terra-lt); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { gap: 1.25rem; }
+      .nav-links li:nth-child(n+3) { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      section { padding: 3.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <a href="index.html" class="nav-logo">Jerry <span>&</span> Beth Fowler</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#ventures" class="active">Work</a></li>
+    <li><a href="index.html#adventures">Adventures</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── Page Header ── -->
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-header-inner">
+    <p class="page-eyebrow"><a href="index.html" style="color:rgba(247,244,239,0.45);transition:color 0.2s;" onmouseover="this.style.color='var(--terra-lt)'" onmouseout="this.style.color='rgba(247,244,239,0.45)'">← Back</a> &nbsp;·&nbsp; Web Services</p>
+    <h1>Sites that <em>actually</em><br />represent you.</h1>
+    <p class="page-sub">
+      Custom web design and development for individuals and small organizations who want a real web presence — not a theme with placeholder text and stock photos.
+    </p>
+  </div>
+</div>
+
+<!-- ── What we build ── -->
+<section id="what">
+  <div class="section-inner">
+    <p class="section-label">What we build</p>
+    <h2 class="section-title">Clean work,<br />clear purpose</h2>
+    <div class="rule"></div>
+    <p class="section-body">
+      Every project is scoped to what you actually need. No upselling, no unnecessary complexity — just a fast, well-built site that does its job.
+    </p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🏠</div>
+        <h3 class="service-name">Personal &amp; Brand Sites</h3>
+        <p class="service-desc">Your name, your story, your work — presented with the care it deserves. Built to load fast, look right on every device, and hold up over time.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏢</div>
+        <h3 class="service-name">Small Business &amp; Venture Sites</h3>
+        <p class="service-desc">A professional presence for your company, firm, or investment vehicle. Clear positioning, strong visual identity, and a site you're not embarrassed to hand out.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3 class="service-name">Landing Pages &amp; Microsites</h3>
+        <p class="service-desc">Single-purpose pages built to do one thing well — capture interest, announce a launch, or explain a service to the right audience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Approach ── -->
+<section id="approach">
+  <div class="section-inner">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">No bloat,<br />no runaround</h2>
+    <div class="rule"></div>
+    <div class="approach-list">
+      <div class="approach-item">
+        <div class="approach-num">1</div>
+        <div class="approach-text">
+          <h4>One conversation</h4>
+          <p>We talk about what you actually need, what you want visitors to feel, and what "done" looks like. No discovery decks or scoping workshops.</p>
+        </div>
+      </div>
+      <div class="approach-item">
+        <div class="approach-num">2</div>
+        <div class="approach-text">
+          <h4>Built from scratch</h4>
+          <p>Custom HTML, CSS, and thoughtful design decisions — not a WordPress theme with your logo dropped in. Code you can hand off to anyone.</p>
+        </div>
+      </div>
+      <div class="approach-item">
+        <div class="approach-num">3</div>
+        <div class="approach-text">
+          <h4>Fast and hosted right</h4>
+          <p>Deployed to Cloudflare Pages or equivalent — globally distributed, HTTPS by default, and faster than 95% of CMS-backed sites out of the box.</p>
+        </div>
+      </div>
+      <div class="approach-item">
+        <div class="approach-num">4</div>
+        <div class="approach-text">
+          <h4>You own it</h4>
+          <p>All files, all source, all access. No subscriptions to me, no proprietary platform lock-in. It's yours to take wherever you need.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Client work ── -->
+<section id="clients">
+  <div class="section-inner">
+    <p class="section-label">Client work</p>
+    <h2 class="section-title">In the wild</h2>
+    <div class="rule"></div>
+    <p class="section-body">
+      A running list of sites built and deployed. Small roster by design — every project gets real attention.
+    </p>
+
+    <div class="clients-grid">
+
+      <!-- Dragon Light Ventures -->
+      <div class="client-card">
+        <div class="client-card-header">
+          <div class="client-logo-placeholder">🐉</div>
+          <div class="client-meta">
+            <h3>Dragon Light Ventures</h3>
+            <span class="client-url">dragonlightventures.com</span>
+          </div>
+        </div>
+        <div class="client-card-body">
+          <p class="client-desc">
+            A clean, professional web presence for an investment and ventures firm — built to communicate credibility and intent without over-explaining. Fast-loading, mobile-responsive, and custom-built from the ground up.
+          </p>
+          <div class="client-tags">
+            <span class="tag">Ventures</span>
+            <span class="tag">Brand Site</span>
+            <span class="tag">Static HTML</span>
+            <span class="tag">Cloudflare Pages</span>
+          </div>
+        </div>
+        <div class="client-card-footer">
+          <a href="https://dragonlightventures.com" target="_blank" rel="noopener" class="client-link">
+            Visit site
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="section-inner">
+    <p class="section-label">Start a project</p>
+    <h2 class="section-title">Got something<br />in mind?</h2>
+    <p class="section-body">
+      Send a note with a sentence or two about what you're building. If it's a good fit, we'll go from there.
+    </p>
+    <a href="mailto:jerry@jerryfowler.us" class="btn-primary">
+      jerry@jerryfowler.us
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>© 2026 Jerry &amp; Beth Fowler &nbsp;·&nbsp; <a href="mailto:jerry@jerryfowler.us">jerry@jerryfowler.us</a> &nbsp;·&nbsp; <a href="index.html">Home</a></p>
+</footer>
+
+</body>
+</html>
