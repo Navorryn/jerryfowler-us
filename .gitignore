@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Raw source photos (too large for git)
+raw images/
+
+# Editor
+.vscode/
+*.swp
