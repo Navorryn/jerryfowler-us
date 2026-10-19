@@ -9,3 +9,6 @@ raw images/
 # Editor
 .vscode/
 *.swp
+
+# Cloudflare Wrangler cache
+.wrangler/
